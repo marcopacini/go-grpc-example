@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package cache;
+
+service Cache {
+    rpc put(Entry) returns (Value);
+    rpc get(Key) returns (Value);
+}
+
+message Entry {
+    string key = 1;
+    string value = 2;
+}
+
+message Key {
+    string key = 1;
+}
+
+message Value {
+    string value = 1;
+}
