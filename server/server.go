@@ -21,11 +21,7 @@ func newServer(size int) *server {
 }
 
 func (s *server) Put(_ context.Context, e *cache.Entry) (*cache.Value, error) {
-	old, ok := s.entries[e.Key]
-	if !ok {
-		return nil, nil
-	}
-
+	old, _ := s.entries[e.Key]
 	s.entries[e.Key] = e.Value
 	return &cache.Value{Value: old}, status.New(codes.OK, "").Err()
 }
@@ -34,8 +30,7 @@ func (s *server) Get(_ context.Context, k *cache.Key) (*cache.Value, error) {
 	if v, ok := s.entries[k.Key]; ok {
 		return &cache.Value{Value: v}, status.New(codes.OK, "").Err()
 	}
-
-	return nil, status.Errorf(codes.NotFound, "key does not exist", k.Key)
+	return &cache.Value{}, status.Errorf(codes.NotFound, "key does not exist: %v", k.Key)
 }
 
 const (
