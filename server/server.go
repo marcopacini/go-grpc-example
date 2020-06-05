@@ -1,16 +1,17 @@
 package main
 
 import (
-	"cache/service/cache"
 	"context"
+	"go-grpc-example/cache"
+	"log"
+	"net"
+
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	"log"
-	"net"
 )
 
-type server struct{
+type server struct {
 	entries map[string]string
 }
 
@@ -34,7 +35,7 @@ func (s *server) Get(_ context.Context, k *cache.Key) (*cache.Value, error) {
 }
 
 const (
-	port = ":50051"
+	port      = ":50051"
 	sizeCache = 1024
 )
 
